@@ -1,4 +1,14 @@
-var registeredUsers = []; // this array stores valid usernames until the next pageload
+var registeredUsers = [
+  "user1",
+  "user2",
+  "user3",
+  "user4",
+  "user5",
+  "user6",
+  "user7",
+  "user8",
+  "user9",
+]; // this array stores valid usernames until the next pageload
 
 function validateForm(e) {
   e.preventDefault(); // stop the submit button from refreshing the page
@@ -20,8 +30,16 @@ function validateForm(e) {
     validatePassword()
   ) {
     var _newUser = getUserName();
+
     // add code to update registeredUsers array with new user and call render function
     registeredUsers.push(_newUser);
+
+    if (registeredUsers.length > 4) {
+      while (registeredUsers.length > 5) {
+        registeredUsers.shift();
+      }
+    }
+
     renderRegisteredUsers();
     document.registration.reset(); // reset form input fields
   }
@@ -56,7 +74,6 @@ function validatePhone() {
  */
 function validateUsername() {
   var _userName = getUserName();
-
   return !checkSpace(_userName);
 }
 
@@ -129,28 +146,28 @@ function checkSpace(sample) {
  * @returns [Boolean] true when valid, false otherwise
  */
 function getUserName() {
-  if (typeof document.registration.username.value === "undefined") {
+  if (typeof document.registration.username === "undefined") {
     return "";
   } else {
     return document.registration.username.value;
   }
 }
 function getFirstName() {
-  if (typeof document.registration.firstname.value === "undefined") {
+  if (typeof document.registration.firstname === "undefined") {
     return "";
   } else {
     return document.registration.firstname.value;
   }
 }
 function getLastName() {
-  if (typeof document.registration.lastname.value === "undefined") {
+  if (typeof document.registration.lastname === "undefined") {
     return "";
   } else {
     return document.registration.lastname.value;
   }
 }
 function getPhone() {
-  if (typeof document.registration.phone.value === "undefined") {
+  if (typeof document.registration.phone === "undefined") {
     return "";
   } else {
     return document.registration.phone.value;
@@ -159,7 +176,7 @@ function getPhone() {
 
 function getEmail() {
   // TODO
-  if (document.registration.email.value === "undefined") {
+  if (document.registration.email === "undefined") {
     return "";
   } else {
     return document.registration.email.value;
@@ -168,18 +185,18 @@ function getEmail() {
 
 function getPassword() {
   // TODO
-  if (document.registration.email.password === "undefined") {
+  if (document.registration.password === "undefined") {
     return "";
   } else {
-    return document.registration.username.password;
+    return document.registration.password.value;
   }
 }
 
 function getConfirmPassword() {
   // TODO
-  if (document.registration.email.value === "undefined") {
+  if (document.registration.password_confirm === "undefined") {
     return "";
   } else {
-    return document.registration.username.confirmPassword;
+    return document.registration.password_confirm.value;
   }
 }
