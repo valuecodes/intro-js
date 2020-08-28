@@ -1,62 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Document</title>
-	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet"
-		id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="js/scripts.js"></script>
-	<!------ Include the above in your HEAD tag ---------->
-</head>
-
-<body>
-	<div>Hello testing message</div>
-	<form class="form-horizontal" name="registration">
-		<fieldset>
-			<div id="legend">
-				<legend class="">Register</legend>
-			</div>
-			<div class="control-group">
-				<!-- Username -->
-				<label class="control-label" for="username">Username</label>
-				<div class="controls">
-					<input type="text" id="username" name="username" placeholder="" class="input-xlarge">
-					<p class="help-block">Username can contain any letters or numbers, without spaces</p>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<!-- Username -->
-				<label class="control-label" for="firstname">First name</label>
-				<div class="controls">
-					<input type="text" id="firstname" name="firstname" placeholder="" class="input-xlarge">
-					<p class="help-block">First name can contain any letters or numbers, without spaces</p>
-				</div>
-			</div>
-
-			<div class="control-group">
-				<!-- Username -->
-				<label class="control-label" for="lastname">Last name</label>
-				<div class="controls">
-					<input type="text" id="lastname" name="lastname" placeholder="" class="input-xlarge" required minlength="6" maxlength="8">
-					<p class="help-block">Username can contain any letters or numbers, without spaces</p>
-				</div>
-			</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Hello World</title>
+    <script type="text/javascript">
+      console.log("Hello World");
+    </script>
 
     <script type="text/javascript" src="js/scripts.js"></script>
-
-</head>
-<body>
-	<div>
-		<input type="text" name="firstinput" id="firstinput">
-		<input type="text" name="secondinput" id="secondinput">
-		<button onclick="calculate('add')">Add</button>
-		<button onclick="calculate('subtract')">Subtract</button>
-	</div>
-	<div id="final-result"></div>
-</body>
+  </head>
+  <body>
+    <div>
+      <input type="text" name="firstinput" id="firstinput" />
+      <input type="text" name="secondinput" id="secondinput" />
+      <button onclick="calculate('add')">Add</button>
+      <button onclick="calculate('subtract')">Subtract</button>
+      <button onclick="calculate('multiply')">Multiply</button>
+      <button onclick="calculate('subtract')">Divide</button>
+    </div>
+    <div id="final-result"></div>
+  </body>
 </html>
