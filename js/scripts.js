@@ -10,6 +10,16 @@ var registeredUsers = [
   "user9",
 ]; // this array stores valid usernames until the next pageload
 
+$(document).on("ready", function () {
+  console.log("tesrttter");
+  $(".lazy").slick({
+    lazyLoad: "ondemand", // ondemand progressive anticipated
+    infinite: true,
+  });
+});
+
+console.log($("body").append("<div>Test</div>"));
+
 function validateForm(e) {
   e.preventDefault(); // stop the submit button from refreshing the page
   console.log("validating....");
@@ -47,10 +57,12 @@ function validateForm(e) {
 
 function renderRegisteredUsers() {
   document.getElementById("registered-users").innerHTML = "";
+
   registeredUsers.forEach(function (registeredUser) {
-    var _newUser = document.createElement("li");
-    _newUser.innerHTML = registeredUser;
-    document.getElementById("registered-users").appendChild(_newUser);
+    $("<li>" + registeredUser + "</li>").appendTo("#registered-users");
+    // var _newUser = document.createElement("li");
+    // _newUser.innerHTML = registeredUser;
+    // document.getElementById("registered-users").appendChild(_newUser);
   });
 }
 
@@ -143,13 +155,17 @@ function checkSpace(sample) {
  * look under the "username" input field and returns the value of it
  * returns nothing if no value is found
  *
+ *
  * @returns [Boolean] true when valid, false otherwise
  */
+
 function getUserName() {
+  console.log($("registration.username"));
   if (typeof document.registration.username === "undefined") {
     return "";
   } else {
-    return document.registration.username.value;
+    return $('[name="username"]').val();
+    // return document.registration.username.value;
   }
 }
 function getFirstName() {
@@ -179,7 +195,7 @@ function getEmail() {
   if (document.registration.email === "undefined") {
     return "";
   } else {
-    return document.registration.email.value;
+    return $('[name="email"]').val();
   }
 }
 
@@ -188,7 +204,7 @@ function getPassword() {
   if (document.registration.password === "undefined") {
     return "";
   } else {
-    return document.registration.password.value;
+    return $('[name="password"]').val();
   }
 }
 
@@ -197,6 +213,41 @@ function getConfirmPassword() {
   if (document.registration.password_confirm === "undefined") {
     return "";
   } else {
-    return document.registration.password_confirm.value;
+    return $('[name="password_confirm"]').val();
   }
 }
+
+var sliderEl = document.createElement("section");
+sliderEl.classList.add("lazy", "slider");
+sliderEl.setAttribute("data-sizes", "50vw");
+document.body.appendChild(sliderEl);
+
+function addSlide(theme) {
+  var slide = document.createElement("div");
+  var slideImage = document.createElement("img");
+  slideImage.setAttribute(
+    "data-lazy",
+    "http://placehold.it/350x300?text=1-350w"
+  );
+  slideImage.setAttribute(
+    "data-srcset",
+    "https://source.unsplash.com/1000x1000/?" + theme
+  );
+  slideImage.setAttribute("data-sizes", "100vw");
+  slide.appendChild(slideImage);
+  sliderEl.appendChild(slide);
+}
+
+addSlide("nature");
+addSlide("city");
+addSlide("person");
+
+$(document).ready(function () {
+  $(".lazy").slick({
+    lazyLoad: "ondemand", // ondemand progressive anticipated
+    infinite: true,
+    autoplay: true,
+    arroes: true,
+    dots: true,
+  });
+});
