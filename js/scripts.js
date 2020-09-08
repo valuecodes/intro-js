@@ -1,3 +1,22 @@
+$.get(
+  "http://api.openweathermap.org/data/2.5/weather?q=helsinki&appid=5ca13f881159e89bde6afa3f3fe3fa3e",
+  function () {
+    console.log("success");
+  }
+)
+  .done(function (res) {
+    console.log(res);
+    let sentence = `Helsinki today is ${res.main.temp} degree and it feels like ${res.main.feels_like}`;
+    console.log(sentence);
+    $("body").prepend("<p>" + sentence + "</p>");
+  })
+  .fail(function () {
+    console.log("error");
+  })
+  .always(function () {
+    console.log("finished");
+  });
+
 var registeredUsers = [
   "user1",
   "user2",
