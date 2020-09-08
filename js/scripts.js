@@ -1,42 +1,48 @@
-function getWeatherInfoFrom(city) {
-  $.get(
-    "http://api.openweathermap.org/data/2.5/weather?q=" +
-      city +
-      "&appid=5ca13f881159e89bde6afa3f3fe3fa3e",
-    function () {
-      console.log("success");
-    }
-  )
-    .done(function (res) {
-      console.log(res);
-      let celsius = kelvinToCelsius();
-      let sentence = `${res.name} today is ${kelvinToCelsius(
-        res.main.temp
-      )} degree and it feels like ${kelvinToCelsius(
-        res.main.feels_like
-      )} degree`;
-      console.log(sentence);
-      $("body").prepend("<p>" + sentence + "</p>");
-    })
-    .fail(function () {
-      console.log("error");
-      $("body").prepend("<p>" + city + "could not be found </p>");
-    })
-    .always(function () {
-      console.log("finished");
-    });
-}
+$(document).ready(function () {
+  function getWeatherInfoFrom(city) {
+    $.get(
+      "http://api.openweathermap.org/data/2.5/weather?q=" +
+        city +
+        "&appid=5ca13f881159e89bde6afa3f3fe3fa3e",
+      function () {
+        console.log("success");
+      }
+    )
+      .done(function (res) {
+        let celsius = kelvinToCelsius();
+        let sentence = `${res.name} today is ${kelvinToCelsius(
+          res.main.temp
+        )} degree and it feels like ${kelvinToCelsius(
+          res.main.feels_like
+        )} degree`;
+        console.log(sentence);
+        $("body").prepend("<p>" + sentence + "</p>");
+      })
+      .fail(function () {
+        console.log("error");
+        $("body").prepend("<p>" + city + "could not be found </p>");
+      })
+      .always(function () {
+        console.log("finished");
+      });
+  }
+
+  $("#search").on("click", () => {
+    let searchText = $("#city").val();
+    getWeatherInfoFrom(searchText);
+  });
+
+  getWeatherInfoFrom("helsinki");
+});
 
 function kelvinToCelsius(number) {
   return (number - 273.15).toFixed(1);
 }
 
-getWeatherInfoFrom("helsinki");
-
-function searchCity() {
-  let searchText = $("#city").val();
-  getWeatherInfoFrom(searchText);
-}
+// function searchCity() {
+//   let searchText = $("#city").val();
+//   getWeatherInfoFrom(searchText);
+// }
 
 var registeredUsers = [
   "user1",
