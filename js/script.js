@@ -1,59 +1,81 @@
-var HOURHAND = document.getElementById("hour");
-var MINUTEHAND = document.getElementById("minute");
-var SECONDHAND = document.getElementById("second");
-let alarms = [];
-
-function startClock() {
-  document.getElementById("setAlarm").addEventListener("click", setAlarm);
-  var audio = new Audio("./audio/Tink.aiff");
-  console.log(audio);
-  audio.play();
-  let currentTime = new Date();
-
-  function updateClock(currentTime) {
-    if (currentTime.getSeconds() === 0) {
-      checkAlarms(currentTime);
+var clock = {
+  alarmSound: new Audio("./audio/sound.mp3"),
+  arms: {
+    hour: document.getElementById("hour"),
+    minute: document.getElementById("minute"),
+    second: document.getElementById("second"),
+  },
+  now: {
+    hour: null,
+    minute: null,
+    second: null,
+  },
+  angles: {
+    hour: null,
+    minute: null,
+    second: null,
+  },
+  alarms: [],
+  getNow: function () {
+    var time = new Date();
+    this.now.hour = time.getHours();
+    this.now.minute = time.getMinutes();
+    this.now.second = time.getSeconds();
+  },
+  getAngles: function () {
+    this.angles.second = (360 / 60) * this.now.second;
+    this.angles.minute = (360 / 60) * this.now.minute + this.now.second / 60;
+    this.angles.hour = (360 / 12) * this.now.hour + this.now.minute / 12;
+  },
+  positionClockArms: function () {
+    this.arms.second.style.transform = `rotate(${this.angles.second}deg)`;
+    this.arms.minute.style.transform = `rotate(${this.angles.minute}deg)`;
+    this.arms.hour.style.transform = `rotate(${this.angles.hour}deg)`;
+  },
+  adjustAngles: function () {
+    this.now.second++;
+    this.getAngles();
+    this.positionClockArms();
+    if (this.now.second % 60 === 0) {
+      this.checkAlarms();
     }
-
-    let secondDegrees = (360 / 60) * currentTime.getSeconds();
-    let minuteDegrees = (360 / 60) * currentTime.getMinutes();
-    let hourDegrees = currentTime.getHours() * (360 / 12);
-    minuteDegrees = minuteDegrees + secondDegrees / 60;
-    hourDegrees = hourDegrees + minuteDegrees / 12;
-
-    SECONDHAND.style.transform = `rotate(${secondDegrees}deg)`;
-    MINUTEHAND.style.transform = `rotate(${minuteDegrees}deg)`;
-    HOURHAND.style.transform = `rotate(${hourDegrees}deg)`;
-
-    currentTime.setSeconds(currentTime.getSeconds() + 1);
-  }
-
-  setInterval(() => updateClock(currentTime), 1000);
-}
-
-function checkAlarms(currentTime) {
-  console.log(currentTime);
-  let currentMinutes = currentTime.getMinutes();
-  let currentHours = currentTime.getHours();
-  alarms.forEach((alarm) => {
-    let alarmMinutes = Number(alarm.split(":")[1]);
-    let alarmHours = Number(alarm.split(":")[0]);
-    if (currentMinutes === alarmMinutes && currentHours === alarmHours) {
-      console.log("alarming!");
+  },
+  setAlarm: function () {
+    let selectedTime = document.getElementById("time").value;
+    let activeAlarms = document.getElementById("activeAlarms");
+    let newAlarm = document.createElement("p");
+    newAlarm.textContent = "Alarm at: " + selectedTime;
+    console.log("Alarm set at: " + selectedTime);
+    if (selectedTime) {
+      activeAlarms.appendChild(newAlarm);
+      this.alarms.push(selectedTime);
     }
-  });
-}
+  },
+  checkAlarms: function () {
+    let currentTime = new Date();
+    let currentMinutes = currentTime.getMinutes();
+    let currentHours = currentTime.getHours();
+    this.alarms.forEach((alarm) => {
+      let alarmMinutes = Number(alarm.split(":")[1]);
+      let alarmHours = Number(alarm.split(":")[0]);
+      if (currentMinutes === alarmMinutes && currentHours === alarmHours) {
+        console.log("alarming!");
+        this.alarmSound.play();
+      }
+    });
+  },
+  init: function () {
+    this.getNow();
+    this.getAngles();
+    this.positionClockArms();
+    document
+      .getElementById("setAlarm")
+      .addEventListener("click", this.setAlarm.bind(this));
+    setInterval(this.adjustAngles.bind(this), 1000);
+  },
+};
 
-function setAlarm() {
-  let selectedTime = document.getElementById("time").value;
+clock.init();
 
-  let activeAlarms = document.getElementById("activeAlarms");
-  let newAlarm = document.createElement("p");
-  newAlarm.textContent = "Alarm at: " + selectedTime;
-  if (selectedTime) {
-    activeAlarms.appendChild(newAlarm);
-    alarms.push(selectedTime);
-  }
-}
-
-startClock();
+// var sound = new Audio("./audio/sound.mp3");
+// sound.play();
